@@ -57,7 +57,8 @@ async def _asura(_, message):
   s = c.create_scraper()
   html = s.get(url).text
   soup = bs(html, 'html.parser')
-  title = soup.title.replace(" - Asura Scans", ".pdf")
+  title = soup.title
+  title = .replace(" - Asura Scans", ".pdf")
   ims = soup.find_all("img", attrs={'loading':'lazy'})
   cont = ""
   num = 0
