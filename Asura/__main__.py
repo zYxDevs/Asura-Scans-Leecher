@@ -4,22 +4,22 @@ import os
 import glob
 import img2pdf
 import requests 
-import asyncio
+#import asyncio
 from pyrogram import filters, idle
 from Asura import asura, BOT_NAME, BOT_USERNAME, LOG
 
 
-loop = asyncio.get_event_loop()
+#loop = asyncio.get_event_loop()
 
 
 C = "<b> Asura Scans Updates</b> \n\n"
 CS = "ヘ <b>Name :</b> <code>{}</code>\n\n"
 
 CHS = "  ヘ [{}]({})\n"
-
+"""
 async def start_bot():
   return await asura.send_message(chat_id=LOG, text='Im Alive')
-
+"""
 
 
 def get_command(com):
@@ -168,5 +168,5 @@ async def latest(_, message):
 
 
 if __name__ == "__main__":
-  loop.run_until_complete(start_bot())
+  #loop.run_until_complete(start_bot())
   idle()
