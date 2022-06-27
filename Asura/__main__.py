@@ -48,7 +48,7 @@ async def pdf(name):
 
 
 @asura.on_message(get_command("manga"))
-async def asura(_, message):
+async def _asura(_, message):
   try:
     url = message.text.split(" ", maxsplit=1)[1]
   except IndexError:
