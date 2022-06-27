@@ -59,7 +59,7 @@ async def _asura(_, message):
     url = message.text.split(" ", maxsplit=1)[1]
   except IndexError:
     return await message.reply_text("**Usage **:\n× `/manga` url")
-  m = await message.reply_text("searching")
+  m = await message.reply_text("**🔍Searching… \nPlease Wait**")
   s = c.create_scraper()
   html = s.get(url).text
   soup = bs(html, 'html.parser')
@@ -80,8 +80,9 @@ async def _asura(_, message):
       else:
         pass
       num += 1
+  m = await m.edit_text("⚡Kidnapped Images Making PDF Using Black Mejik")
   pf = await pdf(title)
-  await m.edit_text("Uploading Please Wait")
+  await m.edit_text("⚡Uploading Please Wait …")
   await message.reply_document(pf)
   await m.delete()
   return os.remove(pf)
