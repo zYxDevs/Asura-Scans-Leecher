@@ -76,7 +76,7 @@ async def _asura(_, message):
   return os.remove(pf)
 
 
-@asura.on_command(get_command("start"))
+@asura.on_message(get_command("start"))
 async def _start(_, message):
   await message.reply_text(
     text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) and latest updates from [Asura Scans](https://asurascans.com)\n\nTo Know About My Commands Click `HELP` button and to know about my developer Click `ABOUT` button",
@@ -98,7 +98,7 @@ async def _start(_, message):
   )
   return 
 
-@asura.on_callback_data(filters.regex("hhelp"))
+@asura.on_callback_query(filters.regex("hhelp"))
 async def hhelp(_, query):
   qm = query.message
   return await qm.edit_text(
@@ -107,7 +107,7 @@ async def hhelp(_, query):
   )
 
 
-@asura.on_callback_data(filters.regex("abbelp"))
+@asura.on_callback_query(filters.regex("abbelp"))
 async def abblp(_, query):
   qm = query.message
   return await qm.edit_text(
