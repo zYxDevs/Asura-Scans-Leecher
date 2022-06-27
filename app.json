@@ -1,0 +1,43 @@
+{
+  "name": "Asura Scans Leecher",
+  "description": "A Telegram bot to scrape asurascans.com",
+  "keyword": [
+    "asurascans",
+    "telegram",
+    "manga",
+    "manga scraper",
+    "bot"
+  ],
+  "repository": "https://github.com/AuraMoon55/Asura-Scans-Leecher",
+  "website": "https://t.me/TechZBots",
+  "success_url": "http://t.me/asura_manga_bot",
+  "env": {
+    "API_ID": {
+      "description": "get this from my.telegram.org",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "get this from my.telegram.org",
+      "required": true
+    },
+    "TOKEN": {
+      "description": "Bot Token get from @BOTFATHER",
+      "required": true
+    },
+    "LOG": {
+      "description": "Your logs channel id starts with -100",
+      "required": true
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    }
+  ],
+  "formation": {
+    "worker": {
+      "quantity": 1,
+      "size": "free"
+    }
+  }
+}
