@@ -128,6 +128,12 @@ async def abblp(_, query):
             text="Manga Channel",
             url="t.me/The_Manga_Hub"
           )
+        ],
+        [
+          InlineKeyboardButton(
+            text="Repo",
+            url="https://github.com/AuraMoon55/Asura-Scans-Leecher"
+          )
         ]
       ]
     )
