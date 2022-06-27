@@ -4,3 +4,4 @@ pyrogram==1.4.16
 tgcrypto
 cloudscraper
 python-dotenv
+img2pdf
