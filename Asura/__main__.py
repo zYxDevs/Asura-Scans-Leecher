@@ -4,8 +4,13 @@ import os
 import glob
 import img2pdf
 import requests 
+import asyncio
 from pyrogram import filters, idle
 from Asura import asura, BOT_NAME, BOT_USERNAME, LOG
+
+
+loop = asyncio.get_event_loop()
+
 
 C = "<b> Asura Scans Updates</b> \n\n"
 CS = "ヘ <b>Name :</b> <code>{}</code>\n\n"
