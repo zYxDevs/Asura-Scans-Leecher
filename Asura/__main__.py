@@ -29,7 +29,7 @@ def get_command(com):
 
 async def sorted():
   def ssh(a):
-    return int(a.replace("/","").split('.')[1])
+    return int(a.split("-",1)[1].split('.')[1])
   
   f = glob.glob("./*jpg")
   f.sort(key=ssh)
@@ -38,6 +38,11 @@ async def sorted():
 
 async def pdf(name):
   lis = await sorted()
+  for im in lis:
+    if not name[:-4] in im:
+      lis.remove(im)
+    else:
+      pass
   with open(name, 'wb') as f:
     f.write(img2pdf.convert(lis))
     f.close()
@@ -69,7 +74,7 @@ async def _asura(_, message):
     else:
       if im.get("src"):
         d = requests.get(im.get("src")).content
-        open(f"{num}.jpg", "wb").write(d)
+        open(f"{title[:-4]}-{num}.jpg", "wb").write(d)
       else:
         pass
       num += 1
