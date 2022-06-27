@@ -55,8 +55,8 @@ async def _asura(_, message):
   except IndexError:
     return await message.reply_text("**Usage **:\n× `/manga` url")
   s = c.create_scraper()
-  c = s.get(url).text
-  soup = bs(c, 'html.parser')
+  html = s.get(url).text
+  soup = bs(html, 'html.parser')
   title = soup.title.replace(" - Asura Scans", ".pdf")
   ims = soup.find_all("img", attrs={'loading':'lazy'})
   cont = ""
