@@ -29,7 +29,7 @@ def get_command(com):
 
 async def sorted():
   def ssh(a):
-    return int(a.split("-",1)[1].split('.')[1])
+    return int(a.split("-",1)[1].split('.')[0])
   
   f = glob.glob("./*jpg")
   f.sort(key=ssh)
