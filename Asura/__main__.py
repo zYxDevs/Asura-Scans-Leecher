@@ -161,6 +161,7 @@ async def latest(_, message):
       msg += CHS.format(li.a.string, li.a.get("href"))
     res.append(msg)
   lim = int(4096/len(res[0])) + 1
+  C = ""
   for x in res[:lim]:
     C += x
     C += "\n"
