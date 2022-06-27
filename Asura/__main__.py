@@ -108,7 +108,7 @@ async def hhelp(_, query):
   )
 
 
-@asura.on_callback_query(filters.regex("abbelp"))
+@asura.on_callback_query(filters.regex("abbout"))
 async def abblp(_, query):
   qm = query.message
   return await qm.edit_text(
