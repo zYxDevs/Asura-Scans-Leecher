@@ -10,12 +10,16 @@
 * Latest Updates From [Asura Scans](https://asurascans.com)
 * Manga From Asura Scans as pdf
 
+* Latest Updates From [Reaper Scans](https://reaperscans.com)
+* Manga From Reaper Scans as PDF
+
 ### 🧲 Required Variables
 
 * `API_ID` - Get this value from my.telegram.org
 * `API_HASH` - Get this value from my.telegram.org
 * `BOT_TOKEN` - Get this from @BotFather
-* `LOG` - Channel ID
+
+
 ### 📤 Deploy
 <p><a href="https://heroku.com/deploy?template=https://github.com/AuraMoon55/Asura-Scans-Leecher.git"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-blueviolet?style=for-the-badge&logo=heroku" width="200""/></a></p>
 
