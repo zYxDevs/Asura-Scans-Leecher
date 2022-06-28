@@ -228,7 +228,7 @@ async def _rlatest(_, message):
   soup = bs(s.get("https://reaperscans.com").text, 'html.parser')
   tits = soup.find_all("div", attrs={"class":"series-box"})
     
-  RST = "Name: {}"
+  RST = "<b>Name</b>: <code>{}</code>"
   RSCH = "» [{}]({})"
     
   titles = []
