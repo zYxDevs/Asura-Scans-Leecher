@@ -129,7 +129,7 @@ async def hhelp(_, query):
           )
         ]
       ]
-    )
+    ),
     disable_web_page_preview=True
   )
 
