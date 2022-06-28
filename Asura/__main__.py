@@ -243,13 +243,13 @@ async def _rlatest(_, message):
     chap = chap.find_all("a")
     chs2 = []
     for cha in chap:
-      c = cha.get("href")[:-1].split("/")[-1]
-      c = c.split("-")
-      if len(c) == 3:
-        c = c[0] + " "+ c[1] + "." + c[2]
+      ck = cha.get("href")[:-1].split("/")[-1]
+      ck = ck.split("-")
+      if len(ck) == 3:
+        ck = ck[0] + " "+ ck[1] + "." + ck[2]
       else:
-        c = " ".join(c)
-      chs2.append(RSCH.format(c.capitalize(), cha.get("href")))
+        ck = " ".join(ck)
+      chs2.append(RSCH.format(ck.capitalize(), cha.get("href")))
     chs.append(chs2)
     
   msg = ""
