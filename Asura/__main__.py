@@ -55,16 +55,20 @@ async def pdf(name):
 
 @asura.on_message(get_command("manga"))
 async def _asura(_, message):
+  if not "asurascans.com" in message.text:
+    return await message.reply_text("**Usage **:\n× `/manga` url")
+  else:
+    pass
   try:
     url = message.text.split(" ", maxsplit=1)[1]
   except IndexError:
     return await message.reply_text("**Usage **:\n× `/manga` url")
-  m = await message.reply_text("**🔍Searching ……**")
+  m = await message.reply_text("**🔍Searching ……**")  
   s = c.create_scraper()
   html = s.get(url).text
   soup = bs(html, 'html.parser')
   title = soup.find_all("title")[0]
-  title = title.text.replace(" - Asura Scans", ".pdf")
+  title = title.text.replace(" - Asura Scans", "as.pdf")
   title = title.replace("-", "_")
   ims = soup.find_all("img", attrs={'loading':'lazy'})
   cont = ""
@@ -81,16 +85,18 @@ async def _asura(_, message):
         pass
       num += 1
   pf = await pdf(title)
+  pd = pf[:-6] + ".pdf"
+  os.rename(pf, pd)
   await m.edit_text("⚡Uploading Please Wait …")
-  await message.reply_document(pf)
+  await message.reply_document(pd, caption=pd[:-4])
   await m.delete()
-  return os.remove(pf)
+  return os.remove(pd)
 
 
 @asura.on_message(get_command("start"))
 async def _start(_, message):
   await message.reply_text(
-    text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) and latest updates from [Asura Scans](https://asurascans.com)\n\nTo Know About My Commands Click `HELP` button and to know about my developer Click `ABOUT` button",
+    text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com) and latest updates from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
     reply_markup=InlineKeyboardMarkup(
       [
         [
@@ -113,7 +119,17 @@ async def _start(_, message):
 async def hhelp(_, query):
   qm = query.message
   return await qm.edit_text(
-    text="Following Are My Commands\n\n×`/latest` -> Get latest Updates From [Asura Scans](https://asurascans.com)\n× `/manga <url>` -> Get pdf of manga chapter by url",
+    text="Following Are My Commands\n\n× /latest  -> Get latest Updates From [Asura Scans](https://asurascans.com)\n× /manga url -> Get pdf of manga chapter by url (Asura scans)\n× /rlatest -> Get latest updates from [Reaper Scans](https://reaperscans.com)\n× /rmanga -> Get pdf of manga chapter by url ( Reaper Scans)",
+    reply_markup=InlineKeyboardMarkup(
+      [
+        [
+          InlineKeyboardButton(
+            text="Back",
+            callback_data="bback"
+          )
+        ]
+      ]
+    )
     disable_web_page_preview=True
   )
 
@@ -149,6 +165,10 @@ async def abblp(_, query):
           InlineKeyboardButton(
             text="Repo",
             url="https://github.com/AuraMoon55/Asura-Scans-Leecher"
+          ),
+          InlineKeyboardButton(
+            text="Back",
+            callback_data="bback"
           )
         ]
       ]
@@ -176,6 +196,115 @@ async def latest(_, message):
     C += x
     C += "\n"
   return await message.reply(C, disable_web_page_preview=True)
+
+
+
+@asura.on_callback_query(filters.regex("bback"))
+async def _bvack(_, query):
+  qm = query.message
+  return await qm.edit_text(
+      text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com) and latest updates from [Asura Scans](https://asurascans.com) & [ReaperScans](https://reaperscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
+      reply_markup=InlineKeyboardMarkup(
+        [
+          [
+            InlineKeyboardButton(
+              text="HELP",
+              callback_data="hhelp"
+            ),
+            InlineKeyboardButton(
+              text="ABOUT",
+              callback_data="abbout"
+            )
+          ]
+        ]
+      ),
+      disable_web_page_preview=True
+    )
+   
+
+@asura.on_message(get_command("rlatest"))
+async def _rlatest(_, message):
+  s = c.create_scraper()
+  soup = bs(s.get("https://reaperscans.com").text, 'html.parser')
+  tits = soup.find_all("div", attrs={"class":"series-box"})
+    
+  RST = "Name: {}"
+  RSCH = "» [{}]({})"
+    
+  titles = []
+  for tit in tits:
+    title = tit.a.get("href").split("/")[-2]
+    title = " ".join(x.capitalize() for x in title.split("-"))
+    titles.append(RST.format(title))
+    
+  chs = []
+  chaps = soup.find_all("div", attrs={"class":"series-content"})
+  for chap in chaps:
+    chap = chap.find_all("a")
+    chs2 = []
+    for cha in chap:
+      c = cha.get("href")[:-1].split("/")[-1]
+      c = c.split("-")
+      if len(c) == 3:
+        c = c[0] + " "+ c[1] + "." + c[2]
+      else:
+        c = " ".join(c)
+      chs2.append(RSCH.format(c.capitalize(), cha.get("href")))
+    chs.append(chs2)
+    
+  msg = ""
+  for title in titles[:16]:
+    st = ""
+    st += "× " + title
+    st += "\n  " + "\n  ".join(chap for chap in chs[titles.index(title)])
+    if "#" in st:
+      pass
+    else:
+      msg += st + "\n\n"
+    
+  return await message.reply_text(text=msg[:4096], disable_web_page_preview=True)
+
+
+@asura.on_message(get_command("rmanga"))
+async def _rmanga(_, message):
+  if not "reaperscans.com" in message.text:
+    return await message.reply_text("**Usage **:\n× `/rmanga` url")
+  else:
+    pass
+  try:
+    url = message.text.split(" ", maxsplit=1)[1]
+  except IndexError:
+    return await message.reply_text("**Usage **:\n× `/rmanga` url")
+  m = await message.reply_text("**🔍Searching ……**")  
+  s = c.create_scraper()
+  soup = bs(s.get(url).text, 'html.parser')
+  title = soup.title
+  title= title.string + ".pdf"
+  title = title.replace("-"," ")
+  images = soup.find_all("img")
+  cont = []
+  for image in images:
+    if (image.get("id")):
+      url = image.get("data-src")
+      cont.append(url.replace("\t", "").replace("\n", ""))
+    else:
+      pass
+  im = []
+  num = 0
+  for x in cont:
+    content = requests.get(x).content
+    open(f'{title[:-4]}-{num}.jpg', 'wb').write(content)
+    im.append(f'{title[:-4]}-{num}.jpg')
+    num += 1
+  titl = title.replace("Reaper Scans", "")
+  pf = await pdf(title)
+  os.rename(pf, titl)
+  await m.edit_text("⚡Uploading Please Wait …")
+  await message.reply_document(titl, caption=titl[:-4])
+  await m.delete()
+  return os.remove(titl)
+
+
 
 
 
