@@ -7,7 +7,7 @@ import requests
 #import asyncio
 from pyrogram import filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from Asura import asura, BOT_NAME, BOT_USERNAME, LOG
+from Asura import asura, BOT_NAME, BOT_USERNAME
 
 
 #loop = asyncio.get_event_loop()
