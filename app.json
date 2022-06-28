@@ -23,10 +23,6 @@
     "TOKEN": {
       "description": "Bot Token get from @BOTFATHER",
       "required": true
-    },
-    "LOG": {
-      "description": "Your logs channel id starts with -100",
-      "required": true
     }
   },
   "buildpacks": [
