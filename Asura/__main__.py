@@ -97,7 +97,7 @@ async def _asura(url)
 @asura.on_message(get_command("start"))
 async def _start(_, message):
   await message.reply_text(
-    text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com) and latest updates from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
+    text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas and manga chaoters in pdf format by url \nSupported websites:\n× [Asura Scans](https://asurascans.com)\n× [Reaper Scans](https://reaperscans.com)\n× [Realm Scans](https://realmscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
     reply_markup=InlineKeyboardMarkup(
       [
         [
@@ -120,7 +120,7 @@ async def _start(_, message):
 async def hhelp(_, query):
   qm = query.message
   return await qm.edit_text(
-    text="Following Are My Commands\n\n× /latest  -> Get latest Updates From [Asura Scans](https://asurascans.com)\n× /manga url -> Get pdf of manga chapter by url (Asura scans)\n× /rlatest -> Get latest updates from [Reaper Scans](https://reaperscans.com)\n× /rmanga -> Get pdf of manga chapter by url ( Reaper Scans)",
+    text="Following Are My Commands\n\n× /latest  -> Get latest Updates From [Asura Scans](https://asurascans.com)\n× /manga url -> Get pdf of manga chapter by url \n× /rlatest -> Get latest updates from [Reaper Scans](https://reaperscans.com)",
     reply_markup=InlineKeyboardMarkup(
       [
         [
