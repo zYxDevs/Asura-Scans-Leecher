@@ -32,7 +32,7 @@ async def _broadcast(_, message):
 
 
 
-@asura.on_message(get_command("config") & filters.user(DEVS))
+@asura.on_message(get_command("config"))
 async def _config(_, message):
   tex = f"**Configuration of {BOT_NAME}**\n\n"
   tex += f"**COMMAND PREFIXES**: `{' ,'.join(PREFIXES)}`\n"
