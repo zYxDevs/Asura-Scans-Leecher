@@ -1,10 +1,7 @@
-from Asura import MONGO_URI
-from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
+from Asura import db
 from typing import Dict, List, Union
 
 
-mongo_client = MongoClient(MONGO_URI)
-db = mongo_client.asura
 chatsdb = db.chats
 devsdb = db.devs
 

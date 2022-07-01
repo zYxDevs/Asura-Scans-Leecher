@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 import asyncio
+from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from os import getenv
 from dotenv import load_dotenv
 from Asura.db import get_devs, add_dev
@@ -36,6 +37,13 @@ BOT_USERNAME = x.username
 BOT_ID = x.id
 
 
+
+mongo_client = MongoClient(MONGO_URI)
+db = mongo_client.asura
+devsdb = db.devs
+
+
+
 def get_command(com):
   return filters.command([com, f"{com}@{BOT_USERNAME}"], prefixes=PREFIXES)
 
@@ -44,13 +52,18 @@ loop = asyncio.get_event_loop()
 
 async def load_devs():
   global DEVS
-  devs = await get_devs()
+  devs = []
+  async for dev in devsdb.find({"dev_id": {"$gt": 0}}):
+    devs.append(dev)
   for dev in DEVS:
     if dev in devs:
       pass
     else:
-      await add_dev(dev)
-  DEVS = await get_devs()
+      await devsdb.delete_one({"dev_id": dev})
+  devs = []
+  async for dev in devsdb.find({"dev_id": {"$gt": 0}}):
+    devs.append(dev)
+  DEVS = devs
 
 
 loop.run_until_complete(load_devs())
