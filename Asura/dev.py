@@ -1,4 +1,4 @@
-from Asura.db import get_served_chats, add_dev
+from Asura.db_funcs import get_served_chats, add_dev
 from Asura import DEVS, asura, get_command, BOT_NAME, BOT_USERNAME, API_ID, API_HASH, TOKEN, MONGO_URI, PREFIXES 
 import os
 from pyrogram import filters

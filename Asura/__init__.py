@@ -3,7 +3,6 @@ import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient as MongoClient
 from os import getenv
 from dotenv import load_dotenv
-from Asura.db import get_devs, add_dev
 
 load_dotenv()
 
