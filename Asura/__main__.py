@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup as bs
 import os 
 import glob
 import img2pdf
+from ujson import loads
 import requests 
 #import asyncio
 from pyrogram import filters, idle
