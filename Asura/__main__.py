@@ -67,7 +67,7 @@ async def _manga(_, message):
   return os.remove(file)
 
 
-async def _asura(url)
+async def _asura(url):
   s = c.create_scraper()
   html = s.get(url).text
   soup = bs(html, 'html.parser')
@@ -265,7 +265,7 @@ async def _rlatest(_, message):
   return await message.reply_text(text=msg[:4096], disable_web_page_preview=True)
 
 
-async def _reaper(url)
+async def _reaper(url):
   s = c.create_scraper()
   soup = bs(s.get(url).text, 'html.parser')
   title = soup.title
