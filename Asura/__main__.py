@@ -7,7 +7,7 @@ import requests
 #import asyncio
 from pyrogram import filters, idle
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
-from Asura import asura, BOT_NAME, BOT_USERNAME
+from Asura import asura, BOT_NAME, BOT_USERNAME, get_command
 
 
 #loop = asyncio.get_event_loop()
@@ -17,15 +17,9 @@ C = "<b> Asura Scans Updates</b> \n\n"
 CS = "ヘ <b>Name :</b> <code>{}</code>\n\n"
 
 CHS = "  ヘ [{}]({})\n"
-"""
-async def start_bot():
-  return await asura.send_message(chat_id=LOG, text='Im Alive')
-"""
 
-
-def get_command(com):
-  return filters.command([com, f"{com}@{BOT_USERNAME}"], prefixes=['!', '/', '.'])
-
+RST = "<b>Name</b>: <code>{}</code>"
+RSCH = "» [{}]({})"
 
 async def sorted():
   def ssh(a):
@@ -54,16 +48,26 @@ async def pdf(name):
 
 
 @asura.on_message(get_command("manga"))
-async def _asura(_, message):
-  if not "asurascans.com" in message.text:
-    return await message.reply_text("**Usage **:\n× `/manga` url")
-  else:
-    pass
+async def _manga(_, message):
   try:
     url = message.text.split(" ", maxsplit=1)[1]
   except IndexError:
     return await message.reply_text("**Usage **:\n× `/manga` url")
-  m = await message.reply_text("**🔍Searching ……**")  
+  m = await message.reply_text("**🔍Searching ……**")
+  if "asurascans.com" in url:
+    file = await _asura(url)
+  elif "reaperscans.com" in url:
+    file = _reaper(url)
+  elif "realmscans.com" in url:
+    file = _realm(url)
+  else:
+    return await m.edit_text("Give a url from realmscans.com | reaperscans.com | asurascans.com")
+  await m.edit("⚡Uploading Please Wait …")
+  await message.reply_document(file, caption=file[:-4])
+  return os.remove(file)
+
+
+async def _asura(url)
   s = c.create_scraper()
   html = s.get(url).text
   soup = bs(html, 'html.parser')
@@ -87,10 +91,7 @@ async def _asura(_, message):
   pf = await pdf(title)
   pd = pf[:-6] + ".pdf"
   os.rename(pf, pd)
-  await m.edit_text("⚡Uploading Please Wait …")
-  await message.reply_document(pd, caption=pd[:-4])
-  await m.delete()
-  return os.remove(pd)
+  return pd
 
 
 @asura.on_message(get_command("start"))
@@ -228,8 +229,7 @@ async def _rlatest(_, message):
   soup = bs(s.get("https://reaperscans.com").text, 'html.parser')
   tits = soup.find_all("div", attrs={"class":"series-box"})
     
-  RST = "<b>Name</b>: <code>{}</code>"
-  RSCH = "» [{}]({})"
+  
     
   titles = []
   for tit in tits:
@@ -265,17 +265,7 @@ async def _rlatest(_, message):
   return await message.reply_text(text=msg[:4096], disable_web_page_preview=True)
 
 
-@asura.on_message(get_command("rmanga"))
-async def _rmanga(_, message):
-  if not "reaperscans.com" in message.text:
-    return await message.reply_text("**Usage **:\n× `/rmanga` url")
-  else:
-    pass
-  try:
-    url = message.text.split(" ", maxsplit=1)[1]
-  except IndexError:
-    return await message.reply_text("**Usage **:\n× `/rmanga` url")
-  m = await message.reply_text("**🔍Searching ……**")  
+async def _reaper(url)
   s = c.create_scraper()
   soup = bs(s.get(url).text, 'html.parser')
   title = soup.title
@@ -299,13 +289,31 @@ async def _rmanga(_, message):
   titl = title.replace("Reaper Scans", "")
   pf = await pdf(title)
   os.rename(pf, titl)
-  await m.edit_text("⚡Uploading Please Wait …")
-  await message.reply_document(titl, caption=titl[:-4])
-  await m.delete()
-  return os.remove(titl)
+  return titl
 
 
-
+async def _realm(url):
+  s = c.create_scraper()
+  soup = bs(s.get(url).text, 'html.parser')
+  images = soup.find_all("script")
+  title = soup.title.text.replace("-", "_") + ".pdf"
+  for x in images[25]:
+    x = x.split("(",1)[1]
+    x = x[:-2]
+    resp = loads(x)
+  res = (resp['sources'][0]['images'])
+  im = []
+  num = 0
+  for x in res:
+    content = requests.get(x).content
+    open(f'{title[:-4]}-{num}.jpg', 'wb').write(content)
+    im.append(f'{title[:-4]}-{num}.jpg')
+    num += 1
+  titl = title.replace("_", "")
+  titl = titl.replace(" Realm Scans", "")
+  pf = await pdf(title)
+  os.rename(pf, titl)
+  return titl
 
 
 if __name__ == "__main__":

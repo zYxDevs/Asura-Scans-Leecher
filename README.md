@@ -13,11 +13,16 @@
 * Latest Updates From [Reaper Scans](https://reaperscans.com)
 * Manga From Reaper Scans as PDF
 
+* Latest Updates From [Realm Scans](https://realmscans.com)
+* Manga From Realm Scans as PDF
+
+
 ### 🧲 Required Variables
 
 * `API_ID` - Get this value from my.telegram.org
 * `API_HASH` - Get this value from my.telegram.org
 * `BOT_TOKEN` - Get this from @BotFather
+* `MONGO_URI` - Get this from mongo
 
 
 ### 📤 Deploy

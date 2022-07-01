@@ -3,6 +3,8 @@
   "description": "A Telegram bot to scrape asurascans.com",
   "keyword": [
     "asurascans",
+    "reaperscans",
+    "realmscans",
     "telegram",
     "manga",
     "manga scraper",
@@ -23,6 +25,14 @@
     "TOKEN": {
       "description": "Bot Token get from @BOTFATHER",
       "required": true
+    },
+    "MONGO_URI": {
+      "description": "MONGO DB URI",
+      "required": true
+    },
+    "DEVS": {
+      "description": "user ids of sudo users",
+      "required": true 
     }
   },
   "buildpacks": [
