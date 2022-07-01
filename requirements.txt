@@ -6,3 +6,4 @@ cloudscraper
 python-dotenv
 img2pdf
 motor
+dnspython
