@@ -57,9 +57,9 @@ async def _manga(_, message):
   if "asurascans.com" in url:
     file = await _asura(url)
   elif "reaperscans.com" in url:
-    file = _reaper(url)
+    file = await _reaper(url)
   elif "realmscans.com" in url:
-    file = _realm(url)
+    file = await _realm(url)
   else:
     return await m.edit_text("Give a url from realmscans.com | reaperscans.com | asurascans.com")
   await m.edit("⚡Uploading Please Wait …")
