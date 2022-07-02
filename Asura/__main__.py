@@ -63,8 +63,10 @@ async def _manga(_, message):
     file = await _realm(url)
   else:
     return await m.edit_text("Give a url from realmscans.com | reaperscans.com | asurascans.com")
-  await m.edit("⚡Uploading Please Wait …")
+  m = await m.edit("⚡Uploading Please Wait …")
   await message.reply_document(file, caption=file[:-4])
+  await m.delete()
+  await message.delete()
   return os.remove(file)
 
 
@@ -205,7 +207,7 @@ async def latest(_, message):
 async def _bvack(_, query):
   qm = query.message
   return await qm.edit_text(
-      text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas from [Asura Scans](https://asurascans.com) & [Reaper Scans](https://reaperscans.com) and latest updates from [Asura Scans](https://asurascans.com) & [ReaperScans](https://reaperscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
+      text=f"Hi, I am {BOT_NAME}\nI can help you in getting mangas and manga chaoters in pdf format by url \nSupported websites:\n× [Asura Scans](https://asurascans.com)\n× [Reaper Scans](https://reaperscans.com)\n× [Realm Scans](https://realmscans.com)\n\nTo Know About My Commands Click `HELP` button\nTo know about me Click `ABOUT` button",
       reply_markup=InlineKeyboardMarkup(
         [
           [
@@ -229,9 +231,6 @@ async def _rlatest(_, message):
   s = c.create_scraper()
   soup = bs(s.get("https://reaperscans.com").text, 'html.parser')
   tits = soup.find_all("div", attrs={"class":"series-box"})
-    
-  
-    
   titles = []
   for tit in tits:
     title = tit.a.get("href").split("/")[-2]
