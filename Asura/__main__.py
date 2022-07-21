@@ -34,10 +34,8 @@ async def sorted():
 async def pdf(name):
   lis = await sorted()
   for im in lis:
-    if not name[:-4] in im:
+    if name[:-4] not in im:
       lis.remove(im)
-    else:
-      pass
   with open(name, 'wb') as f:
     f.write(img2pdf.convert(lis))
     f.close()
@@ -88,11 +86,9 @@ async def _asura(url):
       if im.get("src"):
         d = requests.get(im.get("src")).content
         open(f"{title[:-4]}-{num}.jpg", "wb").write(d)
-      else:
-        pass
       num += 1
   pf = await pdf(title)
-  pd = pf[:-6] + ".pdf"
+  pd = f"{pf[:-6]}.pdf"
   os.rename(pf, pd)
   return pd
 
@@ -194,7 +190,7 @@ async def latest(_, message):
     for li in x.ul:
       msg += CHS.format(li.a.string, li.a.get("href"))
     res.append(msg)
-  lim = int(4096/len(res[0])) + 1
+  lim = 4096 // len(res[0]) + 1
   C = ""
   for x in res[:lim]:
     C += x
@@ -236,7 +232,7 @@ async def _rlatest(_, message):
     title = tit.a.get("href").split("/")[-2]
     title = " ".join(x.capitalize() for x in title.split("-"))
     titles.append(RST.format(title))
-    
+
   chs = []
   chaps = soup.find_all("div", attrs={"class":"series-content"})
   for chap in chaps:
@@ -245,23 +241,18 @@ async def _rlatest(_, message):
     for cha in chap:
       ck = cha.get("href")[:-1].split("/")[-1]
       ck = ck.split("-")
-      if len(ck) == 3:
-        ck = ck[0] + " "+ ck[1] + "." + ck[2]
-      else:
-        ck = " ".join(ck)
+      ck = f"{ck[0]} {ck[1]}.{ck[2]}" if len(ck) == 3 else " ".join(ck)
       chs2.append(RSCH.format(ck.capitalize(), cha.get("href")))
     chs.append(chs2)
-    
+
   msg = ""
   for title in titles[:16]:
     st = ""
-    st += "× " + title
-    st += "\n  " + "\n  ".join(chap for chap in chs[titles.index(title)])
-    if "#" in st:
-      pass
-    else:
+    st += f"× {title}"
+    st += "\n  " + "\n  ".join(chs[titles.index(title)])
+    if "#" not in st:
       msg += st + "\n\n"
-    
+
   return await message.reply_text(text=msg[:4096], disable_web_page_preview=True)
 
 
@@ -269,7 +260,7 @@ async def _reaper(url):
   s = c.create_scraper()
   soup = bs(s.get(url).text, 'html.parser')
   title = soup.title
-  title= title.string + ".pdf"
+  title = f"{title.string}.pdf"
   title = title.replace("-"," ")
   images = soup.find_all("img")
   cont = []
@@ -277,15 +268,11 @@ async def _reaper(url):
     if (image.get("id")):
       url = image.get("data-src")
       cont.append(url.replace("\t", "").replace("\n", ""))
-    else:
-      pass
   im = []
-  num = 0
-  for x in cont:
+  for num, x in enumerate(cont):
     content = requests.get(x).content
     open(f'{title[:-4]}-{num}.jpg', 'wb').write(content)
     im.append(f'{title[:-4]}-{num}.jpg')
-    num += 1
   titl = title.replace("Reaper Scans", "")
   pf = await pdf(title)
   os.rename(pf, titl)
@@ -303,12 +290,10 @@ async def _realm(url):
     resp = loads(x)
   res = (resp['sources'][0]['images'])
   im = []
-  num = 0
-  for x in res:
+  for num, x in enumerate(res):
     content = requests.get(x).content
     open(f'{title[:-4]}-{num}.jpg', 'wb').write(content)
     im.append(f'{title[:-4]}-{num}.jpg')
-    num += 1
   titl = title.replace("_", "")
   titl = titl.replace(" Realm Scans", "")
   pf = await pdf(title)
